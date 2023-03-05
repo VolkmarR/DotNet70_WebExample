@@ -12,9 +12,10 @@ namespace QuestionsApp.Web.Api.Queries
             _context = context;
         }
 
-        public Task<List<GetQuestionsResponse>> Handle(GetQuestionsRequest request, CancellationToken cancellationToken)
+        public async Task<List<GetQuestionsResponse>> Handle(GetQuestionsRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await(from q in _context.Questions
+                         select new GetQuestionsResponse { ID = q.ID, Content = q.Content, Votes = q.Votes.Count() }).ToListAsync();
         }
     }
 

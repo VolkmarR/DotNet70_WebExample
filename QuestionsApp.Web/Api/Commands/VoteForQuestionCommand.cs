@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using QuestionsApp.Web.DB;
 
 namespace QuestionsApp.Web.Api.Commands
@@ -11,9 +12,14 @@ namespace QuestionsApp.Web.Api.Commands
             _context = context;
         }
 
-        public Task<IResult> Handle(VoteForQuestionRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(VoteForQuestionRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (!await _context.Questions.AnyAsync(q => q.ID == request.QuestionID))
+                return Results.BadRequest("Invalid Question ID");
+
+            _context.Votes.Add(new VoteDB { QuestionID = request.QuestionID });
+            await _context.SaveChangesAsync();
+            return Results.Ok();
         }
     }
 

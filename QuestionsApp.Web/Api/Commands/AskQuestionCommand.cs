@@ -11,9 +11,14 @@ namespace QuestionsApp.Web.Api.Commands
             _context = context;
         }
 
-        public Task<IResult> Handle(AskQuestionRequest request, CancellationToken cancellationToken)
+        public async Task<IResult> Handle(AskQuestionRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(request.Content))
+                return Results.BadRequest("The Question Content can not be empty");
+
+            _context.Questions.Add(new QuestionDB { Content = request.Content });
+            await _context.SaveChangesAsync();
+            return Results.Ok();
         }
     }
 

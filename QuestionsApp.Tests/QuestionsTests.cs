@@ -18,8 +18,8 @@ namespace QuestionsApp.Tests
         }
 
         private GetQuestionsQuery GetQuestionsQueryHandler => new(_context);
-        private AskQuestionCommand AskQuestionCommandHandler => new(_context);
-        private VoteForQuestionCommand VoteForQuestionCommandHandler => new(_context);
+        private AskQuestionCommand AskQuestionCommandHandler => new(_context, null);
+        private VoteForQuestionCommand VoteForQuestionCommandHandler => new(_context, null);
 
 
         [Fact]

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using QuestionsApp.Web.Api.Commands;
 using QuestionsApp.Web.Api.Queries;
 using QuestionsApp.Web.DB;
+using QuestionsApp.Web.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 // Configuration for Entity Framework
 builder.Services.AddDbContext<QuestionsContext>(options => options.UseInMemoryDatabase("Dummy"));
-
+// Configuration for SignalR
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,5 +40,8 @@ app.MapPost("api/commands/questions/", async (IMediator mediator, string content
 
 app.MapPost("api/commands/questions/{id:int}/vote", async (IMediator mediator, int id) 
     => await mediator.Send(new VoteForQuestionRequest { QuestionID = id }));
+
+// Activate SignalR Hub
+app.MapHub<QuestionsHub>("/hub");
 
 app.Run();

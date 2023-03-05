@@ -141,7 +141,7 @@ private VoteForQuestionCommand VoteForQuestionCommandHandler => new(_context);
 public async Task<List<GetQuestionsResponse>> Handle(GetQuestionsRequest request, CancellationToken cancellationToken)
 {
     return await(from q in _context.Questions
-                  select new GetQuestionsResponse { ID = q.ID, Content = q.Content, Votes = q.Votes.Count() }).ToListAsync();
+                  select new GetQuestionsResponse { ID = q.ID, Content = q.Content, Votes = q.Votes.Count() }).ToListAsync(cancellationToken);
 }
 ~~~
 </details>
@@ -157,7 +157,7 @@ public async Task<IResult> Handle(AskQuestionRequest request, CancellationToken 
         return Results.BadRequest("The Question Content can not be empty");
 
     _context.Questions.Add(new QuestionDB { Content = request.Content });
-    await _context.SaveChangesAsync();
+    await _context.SaveChangesAsync(cancellationToken);
     return Results.Ok();
 }
 ~~~
@@ -171,11 +171,11 @@ public async Task<IResult> Handle(AskQuestionRequest request, CancellationToken 
 ~~~c#
 public async Task<IResult> Handle(VoteForQuestionRequest request, CancellationToken cancellationToken)
 {
-    if (!await _context.Questions.AnyAsync(q => q.ID == request.QuestionID))
+    if (!await _context.Questions.AnyAsync(q => q.ID == request.QuestionID, cancellationToken))
         return Results.BadRequest("Invalid Question ID");
 
     _context.Votes.Add(new VoteDB { QuestionID = request.QuestionID });
-    await _context.SaveChangesAsync();
+    await _context.SaveChangesAsync(cancellationToken);
     return Results.Ok();
 }
 ~~~

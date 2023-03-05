@@ -17,7 +17,7 @@ namespace QuestionsApp.Web.Api.Commands
                 return Results.BadRequest("The Question Content can not be empty");
 
             _context.Questions.Add(new QuestionDB { Content = request.Content });
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return Results.Ok();
         }
     }

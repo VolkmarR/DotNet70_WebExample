@@ -14,11 +14,11 @@ namespace QuestionsApp.Web.Api.Commands
 
         public async Task<IResult> Handle(VoteForQuestionRequest request, CancellationToken cancellationToken)
         {
-            if (!await _context.Questions.AnyAsync(q => q.ID == request.QuestionID))
+            if (!await _context.Questions.AnyAsync(q => q.ID == request.QuestionID, cancellationToken))
                 return Results.BadRequest("Invalid Question ID");
 
             _context.Votes.Add(new VoteDB { QuestionID = request.QuestionID });
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return Results.Ok();
         }
     }

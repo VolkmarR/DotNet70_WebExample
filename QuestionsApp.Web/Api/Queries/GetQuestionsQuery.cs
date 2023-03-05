@@ -15,7 +15,7 @@ namespace QuestionsApp.Web.Api.Queries
         public async Task<List<GetQuestionsResponse>> Handle(GetQuestionsRequest request, CancellationToken cancellationToken)
         {
             return await(from q in _context.Questions
-                         select new GetQuestionsResponse { ID = q.ID, Content = q.Content, Votes = q.Votes.Count() }).ToListAsync();
+                         select new GetQuestionsResponse { ID = q.ID, Content = q.Content, Votes = q.Votes.Count() }).ToListAsync(cancellationToken);
         }
     }
 

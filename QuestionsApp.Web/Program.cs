@@ -1,6 +1,8 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using QuestionsApp.Web.Api.Commands;
 using QuestionsApp.Web.Api.Queries;
+using QuestionsApp.Web.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+// Configuration for Entity Framework
+builder.Services.AddDbContext<QuestionsContext>(options => options.UseInMemoryDatabase("Dummy"));
 
 var app = builder.Build();
 

@@ -61,7 +61,7 @@ public DbSet<VoteDB> Votes { get; set; }
 ~~~
 </details>
 
-### Configure EntityFramework in project.cs to use InMemoryDatabase
+### Configure EntityFramework in program.cs to use InMemoryDatabase
 
 <details><summary>ConfigureServices</summary>
 

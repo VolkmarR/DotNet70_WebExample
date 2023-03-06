@@ -57,7 +57,7 @@ public AskQuestionCommand(QuestionsContext context, IHubContext<QuestionsHub>? h
 <details><summary>Call the refresh SendRefreshAsync in the handle method after the save</summary>
 
 ~~~c#
-_hub.SendRefreshAsync();
+await _hub.SendRefreshAsync();
 ~~~
 </details>
 

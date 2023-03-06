@@ -271,21 +271,21 @@ public async void OneQuestion Test()
 
 ~~~c#
 [Fact]
-public void OneQuestionAndVote()
+public async void OneQuestionAndVote()
 {
-	var query = NewQuery();
-	var command = NewCommand();
+	var askResponse = await AskQuestionCommandHandler.Handle(new AskQuestionRequest { Content = "Dummy Question" }, default);
+	askResponse.Should().NotBeNull();
 
-	command.Ask("Dummy Question").Should().NotBeNull();
+	var response = await GetQuestionsQueryHandler.Handle(new GetQuestionsRequest(), default);
+	response.Should().HaveCount(1);
+	response[0].Votes.Should().Be(0);
 
-	var result = query.Get();
-	result.Should().HaveCount(1);
-	result[0].Votes.Should().Be(0);
+	var voteResponse = await VoteForQuestionCommandHandler.Handle(new VoteForQuestionRequest { QuestionID = response[0].ID }, default);
+	voteResponse.Should().NotBeNull();
 
-	command.Vote(result[0].ID).Should().NotBeNull();
-	result = query.Get();
-	result.Should().HaveCount(1);
-	result[0].Votes.Should().Be(1);
+	response = await GetQuestionsQueryHandler.Handle(new GetQuestionsRequest(), default);
+	response.Should().HaveCount(1);
+	response[0].Votes.Should().Be(1);
 }
 ~~~
 </details>

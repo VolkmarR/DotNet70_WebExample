@@ -163,7 +163,7 @@ public async Task<IResult> Handle(AskQuestionRequest request, CancellationToken 
 ~~~
 </details>
 
-### AskQuestionCommand.cs
+### VoteForQuestionCommand.cs
 
 
 <details><summary>Implement the Handle method</summary>

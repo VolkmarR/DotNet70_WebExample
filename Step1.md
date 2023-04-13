@@ -38,7 +38,7 @@
 
 ### Add Request and Response Classes
 
-<details><summary>Add GetQuestionsRequest class with int ID, string Content, int Votes properies</summary>
+<details><summary>Add the GetQuestionsResponse class with int ID, string Content, int Votes properies</summary>
 
 ~~~c#
 public class GetQuestionsResponse

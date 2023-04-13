@@ -256,7 +256,7 @@ public async void Empty()
 
 ~~~c#
 [Fact]
-public async void OneQuestion Test()
+public async void OneQuestion()
 {
 	var askResponse = await AskQuestionCommandHandler.Handle(new AskQuestionRequest { Content = "Dummy Question" }, default);
 	askResponse.Should().NotBeNull();
